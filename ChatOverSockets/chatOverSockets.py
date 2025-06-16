@@ -314,7 +314,7 @@ def get(label: str) -> str:
     return str(input(label + " > "))
 
 
-def main():
+if __name__ == "__main__":
     HOST = ''               # Symbolic name meaning all available interfaces
     PORT = 55555            # Arbitrary non-privileged port
     CSTR = ['TCP Server', 'TCP Client', 'UDP Server', 'UDP Client']
@@ -336,9 +336,6 @@ def main():
         if uname != '':
             client.set_username(uname)
         client.run_over_tcp()
-
-
-main()
 
 
 # TODO
