@@ -1,21 +1,24 @@
-name: Build with Nuitka
+# .github/workflows/build-chover.yml
+name: Build chatOverSockets with Nuitka
 
 on:
   push:
+    paths:
+      - 'ChatOverSockets/**'
     tags:
-      - 'v*'  #  git tag v1.0.0 && git push origin v1.0.0
+      - 'chover-v*'  # e.g. git tag chover-v25.6.16 && git push origin chover-v25.6.16
   workflow_dispatch:
 
 jobs:
   build:
-    name: Build with Nuitka on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ChatOverSockets
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Set up Python
@@ -23,7 +26,7 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Nuitka and dependencies
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install nuitka -r requirements.txt
@@ -31,10 +34,10 @@ jobs:
       - name: Build with Nuitka
         run: |
           mkdir -p dist
-          nuitka your_script.py --standalone --onefile --output-dir=dist
+          nuitka chatOverSockets.py --standalone --onefile --output-dir=dist
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.os }}-nuitka-build
+          name: chover-build
           path: dist/
