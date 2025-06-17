@@ -1,0 +1,34 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyd
+*.pyo
+*.egg-info/
+.eggs/
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# IDE specific files
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+
+# Editor backup files
+*~
+*.bak
+*.swp
+.DS_Store
+
+# Test results
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Logs and databases
+*.log
+*.db

@@ -1,0 +1,27 @@
+[project]
+name = "my_dummy_project"
+version = "0.1.0"
+description = "A dummy Python project for testing purposes."
+authors = [
+    { name = "Your Name", email = "your.email@example.com" },
+]
+license = { file = "LICENSE" }
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project.urls]
+Homepage = "https://github.com/your-github/my_dummy_project" # Replace with your actual repo
+"Bug Tracker" = "https://github.com/your-github/my_dummy_project/issues" # Replace with your actual repo
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["my_dummy_project*"]

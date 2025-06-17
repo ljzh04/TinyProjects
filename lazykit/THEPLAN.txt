@@ -1,0 +1,27 @@
+# THE PLAN
+lazykit/
+├── __main__.py                  # Entrypoint: allows `python -m lazykit`
+├── cli.py                       # CLI parser: maps commands to handlers
+├── core/                        # Core reusable logic (business layer)
+│   ├── context.py               # Reads file trees, comments, metadata
+│   ├── templates.py             # Loads README/LICENSE templates
+│   ├── generator.py             # Functions like `generate_readme()`
+│   ├── plugin_api.py            # Core interfaces exposed to plugins
+│   └── config.py                # Handles global/user config, paths
+├── commands/                    # First-party (built-in) CLI commands
+│   ├── init.py                  # `lazykit init` logic
+│   ├── gen_readme.py            # `lazykit gen-readme`
+│   ├── make_docs                # `lazykit make-docs`
+│   ├── license.py               # `lazykit create-license`
+│   └── common.py                # Shared command utilities
+├── plugins/                     # User or dev-provided plugins (loaded dynamically)
+│   ├── __init__.py              # Plugin loader (calls register() from all subdirs)
+│   └── tui_dashboard/           # Example TUI plugin (optional)
+│       ├── __init__.py          # Exposes `register()` to hook into CLI
+│       ├── app.py               # Full TUI app built with Textual
+│       └── requirements.txt     # Declares plugin-only dependencies
+├── utils.py                     # Small utilities (e.g., safe file I/O, path helpers)
+├── settings.json                # Optional user config (e.g., default license, LLM)
+├── README.md
+├── pyproject.toml               # Project metadata + optional plugin extras
+└── requirements.txt             # Core dependencies only (minimal!)

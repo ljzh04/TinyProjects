@@ -1,0 +1,27 @@
+[project]
+name = "lazykit"
+version = "25.6.18"
+description = "An extensible cli project automation tool."
+authors = [
+    { name = "ljzh04", email = "ljzh04@gmail.com" },
+]
+license = { file = "LICENSE" }
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project.urls]
+Homepage = "https://github.com/ljzh04/TinyProjects/lazykit"
+"Bug Tracker" = "https://github.com/ljzh04/TinyProjects/lazykit/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["lazykit*"]
