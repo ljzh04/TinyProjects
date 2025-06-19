@@ -45,6 +45,11 @@ def register(subparsers):
         help="Show extended file info",
         dest='long'
     )
+    parser.add_argument(
+        "-s", "--show-content",
+        action="store_true",
+        help="Show file preview",
+        dest='content')
 
     parser.set_defaults(func=handle)
 
@@ -53,14 +58,17 @@ def handle(args):
     crawl = context.crawl_project_context
     display = utils.display_project_context if args.long else utils.display_file_tree
 
-    # Apply exclusions
-    if args.no_defaults:
-        tree = crawl(
-            args.context,
-            exclude_dirs=set(args.exclude_dir),
-            exclude_files=set(args.exclude_file)
-        )
-    else:
-        tree = crawl(args.context)
+    extra_ignore = []
 
-    display(tree)
+    # Process each exclude directory to match both the directory itself and its contents.
+    for pattern in args.exclude_dir:
+        normalized = pattern.rstrip("/")
+        extra_ignore.append(normalized)         # Matches the directory node (e.g., "__TestProjDir__")
+        extra_ignore.append(f"{normalized}/*")    # Matches all items inside
+
+    # Process exclude files similarly (if needed)
+    for pattern in args.exclude_file:
+        extra_ignore.append(pattern)
+
+    tree = crawl(args.context, extra_ignore_patterns=extra_ignore)
+    display(tree, show_content=args.content)

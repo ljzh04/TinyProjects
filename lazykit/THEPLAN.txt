@@ -4,6 +4,7 @@ lazykit/
 ├── cli.py                       # CLI parser: maps commands to handlers
 ├── core/                        # Core reusable logic (business layer)
 │   ├── context.py               # Reads file trees, comments, metadata
+│   ├── extractors.py            # context.py helper, separate file extraction methods
 │   ├── templates.py             # Loads README/LICENSE templates
 │   ├── generator.py             # Functions like `generate_readme()`
 │   ├── plugin_api.py            # Core interfaces exposed to plugins

@@ -1,0 +1,23 @@
+# ver 26.6.19
+# tree cmd
+- add tree -s (show content)
+- fix ignore handling
+- rmv ignored summaries from display util
+
+# docs
+- fix gen_license.py -> md XD
+
+# gen-readme
+- fix incorrect output path arg
+
+# general
+- add readme
+- add license
+- add tracker.txt
+
+# todo
+- make-docs
+- docs template
+- config.py
+- tui plugin
+- llm plugin

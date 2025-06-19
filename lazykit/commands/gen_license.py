@@ -54,7 +54,7 @@ def handle(args):
         return
 
     template_vars = {
-        "project": meta.get("project_name", "UNKNOWN"),
+        "project": meta.get("project_name", "MyProject"),
         "year": datetime.datetime.now().year,
         "organization": meta.get("author", meta.get("maintainer", "Your Name")),
     }
@@ -67,6 +67,7 @@ def handle(args):
 
     generator.generate_from_template(
         template="license/"+template_name,
-        output_path=str(args.output),
+        output_path=str(output_path),
         context=template_vars,
     )
+    print(f"[✓] LICENSE generated at: {output_path}")

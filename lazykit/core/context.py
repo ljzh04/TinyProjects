@@ -8,6 +8,8 @@ import mimetypes
 import pathlib
 import re
 
+from .extractors import extract_content
+
 # Use tomli for Python < 3.11, tomllib for 3.11+
 try:
     import tomllib
@@ -35,21 +37,20 @@ def crawl_project_context(
         # Calculate relative path from the root *once*
         # This will be used for display and ignore pattern matching
         try:
-            relative_to_root_str = str(path.relative_to(root))
+            relative_to_root_str = str(path.relative_to(root)).replace("\\", "/").rstrip("/") #remove trailing slashes
+
         except ValueError:
-            # This can happen if 'path' is not inside 'root' (e.g., symlinks)
-            # For simplicity, we'll just use the full path relative to cwd if it's outside.
-            # Or you might choose to exclude it: return None
-            relative_to_root_str = str(path.relative_to(pathlib.Path.cwd()))
+            relative_to_root_str = str(path.relative_to(pathlib.Path.cwd())).replace("\\", "/").rstrip("/")
 
+        if any(fnmatch.fnmatch(relative_to_root_str, pattern) for pattern in full_exclude):
+            # print(f"[debug] Excluded: {relative_to_root_str}")  # debug - remove
+            return None
 
-        # Exclusion based on relative path
-        if any(fnmatch.fnmatch(relative_to_root_str, pattern) for pattern in full_exclude): return None
         if path.name in DEFAULT_EXCLUDE_FILES: return None
-
 
         if path.is_dir():
             if path.name in DEFAULT_EXCLUDE_DIRS: return None
+
             children = sorted(path.iterdir(), key=lambda p: (p.is_file(), p.name.lower()))
             processed_children = filter(None, [_crawl(p) for p in children])
             return {
@@ -191,7 +192,7 @@ def _load_ignore_rules(root: pathlib.Path, extra_patterns: list[str]) -> tuple[s
     return full_exclude, content_only_exclude
 
 
-def _extract_file_context(path: pathlib.Path, file_data: dict, content_ignore_patterns: set[str]) -> dict:
+def _extract_file_context(path: pathlib.Path, file_data: dict, content_ignore_patterns: set[str], strategy: str = "trimmed") -> dict:
     """Dispatcher to parse a file based on its type and enrich its metadata."""
     file_data['summary'] = None
     file_data['metadata'] = {}
@@ -232,6 +233,8 @@ def _extract_file_context(path: pathlib.Path, file_data: dict, content_ignore_pa
     elif file_data['name'] == 'package.json':
         _parse_package_json(content, file_data)
 
+    # Extract trimmed content for LLM-friendly use
+    file_data["content"] = extract_content(content, file_data['language'], strategy="trimmed")
     return file_data
 
 

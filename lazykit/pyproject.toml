@@ -3,7 +3,7 @@ name = "lazykit"
 version = "25.6.18"
 description = "An extensible cli project automation tool."
 authors = [
-    { name = "ljzh04", email = "ljzh04@gmail.com" },
+    { name = "Loel Joseph Hofileña", email = "ljzh04@gmail.com" },
 ]
 license = { file = "LICENSE" }
 readme = "README.md"
